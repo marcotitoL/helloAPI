@@ -42,6 +42,7 @@ ___________
       *NOTE: if you haven't installed the entity framework tool you need to install it by running `dotnet tool install --global dotnet-ef` before running the database update*
 
 5. run `dotnet run`
+6. If things went well you should be able to go to your browser and see it in action at https://localhost:7016/swagger/index.html
 
 _____________
 
