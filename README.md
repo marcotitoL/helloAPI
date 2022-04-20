@@ -4,6 +4,12 @@ I just recently started learning about dotnet and C# and i just stackoverflowed 
 The codes i wrote here probably could use a refactor or two and I hope you have a good sense of humour before scrutinizing them. My goal here is to
 learn the essentials and get something up and running and have some self-fulfillment(?) in the process. 
 
+What does this API do?
+------
+at the time of this writing it's just a basic user manager, with registration and login, set a balance (can be used like points), upload a profile picture,
+see all registered users, update details like name, birthdate. Delete a user
+
+
 ### Things I learned while doing this
 * Connect to a MySQL database
 * Seeding data (*although kind of a hacky way*)
