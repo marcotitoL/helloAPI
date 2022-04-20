@@ -29,7 +29,7 @@ ___________
       `git clone https://github.com/marcotitoL/helloAPI.git`
 3. rename sample.appsettings.json to appsettings.json and update the connection string
      
-     ![screenshot](https://prnt.sc/6M14GkM9-FMM)
+     see screenshot: https://prnt.sc/6M14GkM9-FMM
      
 4. run `dotnet ef database update`
       
