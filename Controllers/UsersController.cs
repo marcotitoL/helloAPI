@@ -34,10 +34,12 @@ public class UsersController:ControllerBase
                         a => a.Id,
                         b => b.AspNetUserId,
                         (a, b) => new {
+                            Id = a.Id,
                             Email = a.Email,
                             Firstname = b.Firstname,
                             Lastname = b.Lastname,
                             Birthdate = b.Birthdate.ToString("yyyy-MM-dd"),
+                            ProfileImage =  b.ProfileImage == null ? "" : $"{HttpContext.Request.Scheme }://" + HttpContext.Request.Host.ToUriComponent() + "/uploads/" + b.ProfileImage,
                             Balance = b.Balance
                         }
                      ).ToListAsync();
@@ -75,18 +77,14 @@ public class UsersController:ControllerBase
         
     }
 
-/// <summary>
-/// get details of the logged in user OR the details of the owner of the email parameter
-/// </summary>
-/// <param name="email" description="optional"></param>
-    [HttpGet,Route("detail"),Authorize]
-    public async Task<IActionResult> Get( string? email = null ){
-        var username = email is not null ? email : HttpContext.User.Identity?.Name; 
+    [HttpGet("{id}"),Authorize]
+    public async Task<IActionResult> Get( string? id ){
 
-        var loggedInUser = await _userManager.FindByNameAsync( username );
+        var loggedInUser = await _userManager.FindByIdAsync(id);
 
-        var loggedInUserDetails = _applicationDbContext.UserDetails.Where(u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefault();
+        var loggedInUserDetails = await _applicationDbContext.UserDetails.Where(u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefaultAsync();
         return Ok(new{
+            Id = loggedInUser.Id,
             Firstname = loggedInUserDetails?.Firstname,
             Lastname = loggedInUserDetails?.Lastname,
             Birthdate = loggedInUserDetails?.Birthdate.ToString("yyyy-MM-dd"),
@@ -142,6 +140,7 @@ public class UsersController:ControllerBase
 
                 return Ok(new
                 {
+                    User = new { Id = loggedInUser.Id },
                     Token = new JwtSecurityTokenHandler().WriteToken(token),
                     RefreshToken = refreshToken,
                     Expiration = token.ValidTo
@@ -151,16 +150,21 @@ public class UsersController:ControllerBase
 
         return StatusCode(StatusCodes.Status500InternalServerError, new { message = "Login Failed"  } );
     }
-/// <summary>
-/// Updates profile picture for the requesting user with access token
-/// </summary>
+
+/// <param name="id" description="id of the user to be updated"></param>
 /// <param name="profilePicture" description="upload via formdata"></param>
 /// <remarks>
 /// upload via form data field named "profilePicture" (multipart/form-data)
 /// </remarks>
 /// <returns></returns>
-    [HttpPost,Authorize,Route("uploadProfilePicture")]
-        public async Task<IActionResult> updateProfilePicture(IFormFile profilePicture){
+    [HttpPost,Authorize,Route("{id}/uploadProfilePicture")]
+        public async Task<IActionResult> updateProfilePicture(string id, IFormFile profilePicture){
+
+            var updatedUser = await _userManager.FindByIdAsync(id);
+
+            if( updatedUser == null ){
+                return Unauthorized();
+            }
 
             string uploadPath = Path.Combine(_hostEnvironment.ContentRootPath , "wwwroot/uploads" );
             if( !Directory.Exists(uploadPath)){
@@ -173,18 +177,20 @@ public class UsersController:ControllerBase
                 await profilePicture.CopyToAsync(stream);
             }
 
-            var username = HttpContext.User.Identity?.Name; 
+        /*    var username = HttpContext.User.Identity?.Name; 
 
-            var loggedInUser = await _userManager.FindByNameAsync( username );
+            var loggedInUser = await _userManager.FindByNameAsync( username ); */
 
-            UserDetails updatedUserDetails =  _applicationDbContext.UserDetails.Where(u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefault()!;
             
-            updatedUserDetails.ProfileImage = newFilename;
 
             /*UserDetails userDetails = new UserDetails(){
                 ProfileImage = newFilename,
                 AspNetUserId = loggedInUser.Id,
             };*/
+
+            var updatedUserDetails = await _applicationDbContext.UserDetails.Where(u => u.AspNetUserId == updatedUser.Id ).FirstOrDefaultAsync();
+            
+            updatedUserDetails!.ProfileImage = newFilename;
 
             _applicationDbContext.Update(updatedUserDetails);
             await _applicationDbContext.SaveChangesAsync();
@@ -244,26 +250,28 @@ public class UsersController:ControllerBase
             });
         }
 
-    [HttpPut,Route("update"),Authorize]
-    public async Task<IActionResult> Update( UpdateUser updateUser){
+    [HttpPut("{id}"),Authorize]
+    public async Task<IActionResult> Update( string id, UpdateUser updateUser){
         if( ModelState.IsValid ){
-            var username = HttpContext.User.Identity?.Name; 
-            var loggedInUser = await _userManager.FindByNameAsync( username );
+            
+            var updatedUser = await _userManager.FindByIdAsync(id);
 
-            var userDetails = await _applicationDbContext.UserDetails.Where( u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefaultAsync();
+            var updatedUserDetails = await _applicationDbContext.UserDetails.Where( u => u.AspNetUserId == updatedUser.Id ).FirstOrDefaultAsync();
 
-            userDetails!.Firstname = updateUser.Firstname!;
-            userDetails.Lastname = updateUser.Lastname!;
-            userDetails.Birthdate = updateUser.Birthdate!;
+            updatedUserDetails!.Firstname = updateUser.Firstname!;
+            updatedUserDetails.Lastname = updateUser.Lastname!;
+            updatedUserDetails.Birthdate = updateUser.Birthdate!;
 
-            _applicationDbContext.Entry(userDetails).State = EntityState.Modified;
+            _applicationDbContext.Entry(updatedUserDetails).State = EntityState.Modified;
             await _applicationDbContext.SaveChangesAsync();
 
-            return Ok(new{
-                Firstname = userDetails.Firstname,
-                Lastname = userDetails.Lastname,
-                Birthdate = userDetails.Birthdate
-            });
+            /* return Ok(new{
+                Firstname = updatedUserDetails.Firstname,
+                Lastname = updatedUserDetails.Lastname,
+                Birthdate = updatedUserDetails.Birthdate
+            }); */
+
+            return NoContent();
 
         }
         else{
@@ -271,26 +279,31 @@ public class UsersController:ControllerBase
         }
     }
 
-    [HttpPut,Route("setBalance"),Authorize]
-    public async Task<IActionResult> SetBalance(Decimal balanceAmount){
-        var loggedInUser = await _userManager.FindByNameAsync( HttpContext.User.Identity?.Name );
-        var userDetails = await _applicationDbContext.UserDetails.Where( u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefaultAsync();
+    [HttpPost,Route("{id}/updateBalance"),Authorize]
+    public async Task<IActionResult> SetBalance(string id,Decimal balanceAmount){
+        //var loggedInUser = await _userManager.FindByNameAsync( HttpContext.User.Identity?.Name );
+        var updatedUser = await _userManager.FindByIdAsync(id);
 
-        userDetails!.Balance = balanceAmount;
+        var updatedUserDetails = await _applicationDbContext.UserDetails.Where( u => u.AspNetUserId == updatedUser.Id ).FirstOrDefaultAsync();
 
-        _applicationDbContext.Entry(userDetails).State = EntityState.Modified;
+        updatedUserDetails!.Balance += balanceAmount;
+
+        _applicationDbContext.Entry(updatedUserDetails).State = EntityState.Modified;
         await _applicationDbContext.SaveChangesAsync();
 
         return Ok( new {
             message = "Successfully updated the balance",
-            Balance = userDetails.Balance
+            User = new {
+                Id = updatedUser.Id,
+                balance = updatedUserDetails.Balance
+            }
             }
         );
     }
 
-    [HttpDelete("{email}"),Authorize(Roles = "Super Administrator,Administrator")]
-    public async Task<IActionResult> Delete( string email ){
-        IdentityUser userToBeDeleted = await _userManager.FindByEmailAsync(email);
+    [HttpDelete("{id}"),Authorize(Roles = "Super Administrator,Administrator")]
+    public async Task<IActionResult> Delete( string id ){
+        IdentityUser userToBeDeleted = await _userManager.FindByIdAsync(id);
 
         
         var userDetails = await _applicationDbContext.UserDetails.Where( u => u.AspNetUserId == userToBeDeleted.Id ).FirstOrDefaultAsync();

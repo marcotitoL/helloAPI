@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace helloAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220420192313_Products_ProductsCategory_table_Product_user_seed")]
+    partial class Products_ProductsCategory_table_Product_user_seed
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace helloAPI.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
@@ -62,7 +61,6 @@ namespace helloAPI.Migrations
                         {
                             Id = 1,
                             CategoryId = 2,
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "slightly used running cap, still works great",
                             Guid = "b7b2522b-df88-4286-a608-c9a7587d1b7a",
                             Name = "Adidas Running Cap",
@@ -101,36 +99,6 @@ namespace helloAPI.Migrations
                             CategoryName = "Hats",
                             Guid = "9005481f-5f2a-470f-9357-3115f37b9f81"
                         });
-                });
-
-            modelBuilder.Entity("helloAPI.Models.Transactions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Guid")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("buyerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("paymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("buyerId");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("helloAPI.Models.UserDetails", b =>
@@ -239,21 +207,21 @@ namespace helloAPI.Migrations
                         new
                         {
                             Id = "573718cc-2ff6-4980-800d-f73e0605649a",
-                            ConcurrencyStamp = "c883e5ee-ba96-4547-8fc3-fb1c8eccb7fc",
+                            ConcurrencyStamp = "adbf697f-dfad-4575-87a3-c4691f0da525",
                             Name = "Super Administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "fb0b8efb-97e4-4302-8b84-a8670d84d0e0",
-                            ConcurrencyStamp = "38e688d6-7720-4f50-86b1-a5e6291d2f1a",
+                            ConcurrencyStamp = "9eb657bc-44a6-4a45-810b-4dd1e541a81f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "06579486-4460-413c-bc04-ea719960dff7",
-                            ConcurrencyStamp = "a462ff4c-10d6-485c-9aa4-c6d3363104b9",
+                            ConcurrencyStamp = "d6bde420-00d5-46b1-95e2-c8b0c9270cf2",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -350,15 +318,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "0e45e701-4bfe-4867-8550-87f6ae9bf6c8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f3a1459-d9b4-4d54-b9aa-e9ebf0512761",
+                            ConcurrencyStamp = "200d86a4-3cd1-4964-b886-5a2be2fbed53",
                             Email = "marco.lambo@vogappdevelopers.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
                             NormalizedUserName = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPylTktY8pV5rGpwGAHx1KxKgL8tnebVr5lI5mKEmu30yJy4xaGgRM3Pifw3W/5gzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBc3W2kOkXigR9SI8hrFtSGwSDJmsJxEugYUOK3ZQOJuyq0Kj/nqVDVK/x8EmKhYzg==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b51a0423-b7dc-485b-8204-6667545fbc18",
+                            SecurityStamp = "d9e1579b-f08e-46d8-b90a-f0c3ab525528",
                             TwoFactorEnabled = false,
                             UserName = "marco.lambo@vogappdevelopers.com"
                         },
@@ -366,15 +334,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "46b2c7ae-290f-4b18-ae66-39db50de0379",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c2ba56e-cec0-4521-81e0-003820f65ad0",
+                            ConcurrencyStamp = "989b0ddf-80f1-48c5-8b2a-ad8f54a6f270",
                             Email = "myemail@somedomain.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MYEMAIL@SOMEDOMAIN.COM",
                             NormalizedUserName = "MYEMAIL@SOMEDOMAIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA8st63Fz1fgs4XVQDWHn8HDWxxuey0o4HGnbPSOdZGqoanncp2fzcbjPcm43VYUiA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIS4yMuGohHPXtog8vDJ+L6tG8jhCouTaQPHR6k5z+0BO0zVoTjmeZW8ZHrGDNtPzA==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f14981c8-7bc9-478d-bc7f-457b05ee8e60",
+                            SecurityStamp = "7eee85db-55bc-41d6-9c1e-4de5a5bc231d",
                             TwoFactorEnabled = false,
                             UserName = "myemail@somedomain.com"
                         });
@@ -486,25 +454,6 @@ namespace helloAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("productsCategory");
-
-                    b.Navigation("userDetails");
-                });
-
-            modelBuilder.Entity("helloAPI.Models.Transactions", b =>
-                {
-                    b.HasOne("helloAPI.Models.UserDetails", "userDetails")
-                        .WithMany()
-                        .HasForeignKey("buyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("helloAPI.Models.Products", "products")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("products");
 
                     b.Navigation("userDetails");
                 });

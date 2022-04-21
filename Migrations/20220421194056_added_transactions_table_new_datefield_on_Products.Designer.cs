@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace helloAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220421194056_added_transactions_table_new_datefield_on_Products")]
+    partial class added_transactions_table_new_datefield_on_Products
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -26,9 +28,6 @@ namespace helloAPI.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("Description")
                         .HasColumnType("longtext");
@@ -49,6 +48,9 @@ namespace helloAPI.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("date")
+                        .HasColumnType("datetime(6)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -62,13 +64,13 @@ namespace helloAPI.Migrations
                         {
                             Id = 1,
                             CategoryId = 2,
-                            Date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Description = "slightly used running cap, still works great",
                             Guid = "b7b2522b-df88-4286-a608-c9a7587d1b7a",
                             Name = "Adidas Running Cap",
                             Price = 29.50m,
                             Qty = 1,
-                            UserId = 99
+                            UserId = 99,
+                            date = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified)
                         });
                 });
 
@@ -101,36 +103,6 @@ namespace helloAPI.Migrations
                             CategoryName = "Hats",
                             Guid = "9005481f-5f2a-470f-9357-3115f37b9f81"
                         });
-                });
-
-            modelBuilder.Entity("helloAPI.Models.Transactions", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    b.Property<string>("Guid")
-                        .HasColumnType("longtext");
-
-                    b.Property<int>("buyerId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime(6)");
-
-                    b.Property<int>("paymentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("productId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("buyerId");
-
-                    b.HasIndex("productId");
-
-                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("helloAPI.Models.UserDetails", b =>
@@ -239,21 +211,21 @@ namespace helloAPI.Migrations
                         new
                         {
                             Id = "573718cc-2ff6-4980-800d-f73e0605649a",
-                            ConcurrencyStamp = "c883e5ee-ba96-4547-8fc3-fb1c8eccb7fc",
+                            ConcurrencyStamp = "e6ca0b10-afc6-4b20-a0f4-fa69be29f6b8",
                             Name = "Super Administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "fb0b8efb-97e4-4302-8b84-a8670d84d0e0",
-                            ConcurrencyStamp = "38e688d6-7720-4f50-86b1-a5e6291d2f1a",
+                            ConcurrencyStamp = "07b00cd9-c266-4a37-92ab-95d55b9323c6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "06579486-4460-413c-bc04-ea719960dff7",
-                            ConcurrencyStamp = "a462ff4c-10d6-485c-9aa4-c6d3363104b9",
+                            ConcurrencyStamp = "ecbd75f3-42f4-456c-a663-c1aed7a26aff",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -350,15 +322,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "0e45e701-4bfe-4867-8550-87f6ae9bf6c8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "1f3a1459-d9b4-4d54-b9aa-e9ebf0512761",
+                            ConcurrencyStamp = "e5253083-e4a2-432a-8fc3-43eb225fb5e2",
                             Email = "marco.lambo@vogappdevelopers.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
                             NormalizedUserName = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPylTktY8pV5rGpwGAHx1KxKgL8tnebVr5lI5mKEmu30yJy4xaGgRM3Pifw3W/5gzQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEOAwlfevaF+vCsfxTt4T/Xj6oZNVY/FBoZsqFK48OoWCTnv115mwH7D331P8IFTf4Q==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b51a0423-b7dc-485b-8204-6667545fbc18",
+                            SecurityStamp = "72d0e27c-3fea-4133-aa8a-e87c2d6af91e",
                             TwoFactorEnabled = false,
                             UserName = "marco.lambo@vogappdevelopers.com"
                         },
@@ -366,15 +338,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "46b2c7ae-290f-4b18-ae66-39db50de0379",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "8c2ba56e-cec0-4521-81e0-003820f65ad0",
+                            ConcurrencyStamp = "40e0ab63-8c35-4dad-9e1d-4ac1fecb61d7",
                             Email = "myemail@somedomain.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MYEMAIL@SOMEDOMAIN.COM",
                             NormalizedUserName = "MYEMAIL@SOMEDOMAIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEA8st63Fz1fgs4XVQDWHn8HDWxxuey0o4HGnbPSOdZGqoanncp2fzcbjPcm43VYUiA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEKDgLXRw1bzJthiZEgHUuwfrKjprlh9M8gL5uuabXD0fbQuvs2WAYLsQvSrvZl3vKg==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "f14981c8-7bc9-478d-bc7f-457b05ee8e60",
+                            SecurityStamp = "639b301a-4e05-4e8a-9ef3-f0192ca6bbc3",
                             TwoFactorEnabled = false,
                             UserName = "myemail@somedomain.com"
                         });
@@ -486,25 +458,6 @@ namespace helloAPI.Migrations
                         .IsRequired();
 
                     b.Navigation("productsCategory");
-
-                    b.Navigation("userDetails");
-                });
-
-            modelBuilder.Entity("helloAPI.Models.Transactions", b =>
-                {
-                    b.HasOne("helloAPI.Models.UserDetails", "userDetails")
-                        .WithMany()
-                        .HasForeignKey("buyerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("helloAPI.Models.Products", "products")
-                        .WithMany()
-                        .HasForeignKey("productId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("products");
 
                     b.Navigation("userDetails");
                 });
