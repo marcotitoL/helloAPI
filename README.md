@@ -29,7 +29,7 @@ Add Products and Categories. Buy a product/ refund a product. also has sample in
 * EF Migrations, Code-first approach
 * Dependency Injections: When to use Transients, Singleton and Scoped
 
-you can see all of this in action here -> https://helloapi.codewithmar.co/swagger/index.html
+you can see all of this in action here -> https://test.codewithmar.co/swagger/index.html
 
 ___________
 
