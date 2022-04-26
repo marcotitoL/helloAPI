@@ -9,16 +9,24 @@ public record Transactions{
     public string? Guid { get; set;}
 
     [ForeignKey("products")]
-    public int productId { get; set; }
+    public int ProductId { get; set; }
     public Products products {get; set;} = null!;
 
     [ForeignKey("userDetails")]
-    public int buyerId { get; set; }
+    public int BuyerId { get; set; }
     public UserDetails userDetails {get; set;} = null!;
 
-    public DateTime date {get;set;}
+    public DateTime Date {get;set;}
 
-    public int paymentId{ get;set;}
+    public string? PaymentId{ get;set;}
+
+    public TransactionStatus Status { get;set; }
 
 
+}
+
+public enum TransactionStatus{
+    Success,
+    Failed,
+    Refunded
 }

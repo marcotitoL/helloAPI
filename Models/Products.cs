@@ -27,5 +27,19 @@ public record Products{
     public int UserId {get;set;}
     public UserDetails userDetails {get;set;} = null!;
 
+    public ProductStatus Status { get;set; }
 
+    public void Refund(int Qty){
+        this.Qty += Qty;
+
+        if( this.Status == ProductStatus.Sold && this.Qty > 0 )
+            this.Status = ProductStatus.Available;
+    }
+
+}
+
+public enum ProductStatus{
+    Available,
+    Sold,
+    Unlisted
 }

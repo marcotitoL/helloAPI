@@ -13,7 +13,7 @@ namespace helloAPI.Controllers
             _context = context;
         }
 
-        // GET: api/ProductsCategory
+///<summary>Returns all categories</summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductCategoryDTO>>> GetProductsCategory()
         {

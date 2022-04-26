@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace helloAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220422171529_Updated_ENUM_status_to_STRINGEQUIV")]
+    partial class Updated_ENUM_status_to_STRINGEQUIV
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,8 +125,8 @@ namespace helloAPI.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PaymentId")
-                        .HasColumnType("longtext");
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
@@ -248,21 +250,21 @@ namespace helloAPI.Migrations
                         new
                         {
                             Id = "573718cc-2ff6-4980-800d-f73e0605649a",
-                            ConcurrencyStamp = "7e0158f4-ca4e-4b4b-9ce8-5aeea27b4c2f",
+                            ConcurrencyStamp = "a0ac4852-8835-40b6-8d92-03e864d4355e",
                             Name = "Super Administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "fb0b8efb-97e4-4302-8b84-a8670d84d0e0",
-                            ConcurrencyStamp = "b8a6fcc5-b2f7-454c-ab6d-9b09799341ad",
+                            ConcurrencyStamp = "ab3565e9-6446-4121-a497-45d041f634bc",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "06579486-4460-413c-bc04-ea719960dff7",
-                            ConcurrencyStamp = "b24fea27-0d63-4e73-966d-2e85a95b382d",
+                            ConcurrencyStamp = "49a1b9a2-71f3-449c-a7b1-5d2bdf2d68ce",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -359,15 +361,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "0e45e701-4bfe-4867-8550-87f6ae9bf6c8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02df80ef-5e06-4a07-81c4-d1524d7ad8c7",
+                            ConcurrencyStamp = "6d35a66b-b076-443b-aca4-9cf371cf64a1",
                             Email = "marco.lambo@vogappdevelopers.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
                             NormalizedUserName = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPO9NPfk7Kkajsd0/70pWWNbJ5kmeCQqSVJRvPgJWZXGnAxUITT0xTG9s5yw9LEKSA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENFpL8CzMa83Zoxf8dT/tz5srOySMPRzvcA8yHOQksELJKNeUWJfjSmgs32Y9JK1Rw==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "c9d469c6-ebcb-499a-a0ad-e780d1633bc3",
+                            SecurityStamp = "21bc61b3-5226-4c39-8cbe-46047ff5ddb4",
                             TwoFactorEnabled = false,
                             UserName = "marco.lambo@vogappdevelopers.com"
                         },
@@ -375,15 +377,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "46b2c7ae-290f-4b18-ae66-39db50de0379",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26e9b515-f502-4294-bd3d-e11e9394bc02",
+                            ConcurrencyStamp = "a641bf6b-ebdd-4ec1-8886-164a469c9ef1",
                             Email = "myemail@somedomain.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MYEMAIL@SOMEDOMAIN.COM",
                             NormalizedUserName = "MYEMAIL@SOMEDOMAIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJd45m3m47H0bIpw1s02cqFn7bi1QQNiEwlwosnWR8PE1TWouZMUHarbawle9XWaYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHZvGXFEcTvLg4x9dOJoqNnaYFhPSV6EG9fNfITTBm5SXy3tyZYO59gAmRHYYCmONw==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b305bc43-a96a-439a-a218-ca6ffd63918e",
+                            SecurityStamp = "deb395d1-335e-48ca-b09c-83217089c2c5",
                             TwoFactorEnabled = false,
                             UserName = "myemail@somedomain.com"
                         });

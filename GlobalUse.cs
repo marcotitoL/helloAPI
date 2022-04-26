@@ -32,8 +32,17 @@ global using System.Linq;
 
 global using System.Reflection;
 
-global using helloAPI.Models;
-//global using helloAPI.Data;
+global using Stripe;
 
-global using helloAPI.Controllers;
+global using Microsoft.Extensions.Options;
+global using SendGrid;
+global using SendGrid.Helpers.Mail;
+global using System.Threading.Tasks;
+
+global using Twilio;
+global using Twilio.Rest.Api.V2010.Account;
+
+global using helloAPI.Services;
+global using helloAPI.Models;
+
 global using helloAPI.DTO;

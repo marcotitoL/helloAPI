@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace helloAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220422163011_Update_CapitalizeTransactionsFieldNames")]
+    partial class Update_CapitalizeTransactionsFieldNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,10 +48,6 @@ namespace helloAPI.Migrations
                     b.Property<int>("Qty")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
@@ -72,7 +70,6 @@ namespace helloAPI.Migrations
                             Name = "Adidas Running Cap",
                             Price = 29.50m,
                             Qty = 1,
-                            Status = "Available",
                             UserId = 99
                         });
                 });
@@ -123,15 +120,11 @@ namespace helloAPI.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PaymentId")
-                        .HasColumnType("longtext");
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
@@ -248,21 +241,21 @@ namespace helloAPI.Migrations
                         new
                         {
                             Id = "573718cc-2ff6-4980-800d-f73e0605649a",
-                            ConcurrencyStamp = "7e0158f4-ca4e-4b4b-9ce8-5aeea27b4c2f",
+                            ConcurrencyStamp = "d3d3cad2-5249-4662-8256-a44ce5a6b4da",
                             Name = "Super Administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "fb0b8efb-97e4-4302-8b84-a8670d84d0e0",
-                            ConcurrencyStamp = "b8a6fcc5-b2f7-454c-ab6d-9b09799341ad",
+                            ConcurrencyStamp = "3d8a085a-aa89-4fca-9303-0cf1e1e03e69",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "06579486-4460-413c-bc04-ea719960dff7",
-                            ConcurrencyStamp = "b24fea27-0d63-4e73-966d-2e85a95b382d",
+                            ConcurrencyStamp = "f990c210-14c0-425f-82ae-771471ffd4d8",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -359,15 +352,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "0e45e701-4bfe-4867-8550-87f6ae9bf6c8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02df80ef-5e06-4a07-81c4-d1524d7ad8c7",
+                            ConcurrencyStamp = "1464a9cd-26a7-4ca5-a42e-f8ed4e24add0",
                             Email = "marco.lambo@vogappdevelopers.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
                             NormalizedUserName = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPO9NPfk7Kkajsd0/70pWWNbJ5kmeCQqSVJRvPgJWZXGnAxUITT0xTG9s5yw9LEKSA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEJlIiNhcrXxTnBOPEPS3+qWVNWt5X4dfCyot1zpLGyDANnSvAgKKx2HKY+pVA6CJtg==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "c9d469c6-ebcb-499a-a0ad-e780d1633bc3",
+                            SecurityStamp = "62f62b6f-81e0-4ee1-82ad-d8ec2eee96d0",
                             TwoFactorEnabled = false,
                             UserName = "marco.lambo@vogappdevelopers.com"
                         },
@@ -375,15 +368,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "46b2c7ae-290f-4b18-ae66-39db50de0379",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26e9b515-f502-4294-bd3d-e11e9394bc02",
+                            ConcurrencyStamp = "9a2eee9d-5e32-4dc4-be86-77450b45a32f",
                             Email = "myemail@somedomain.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MYEMAIL@SOMEDOMAIN.COM",
                             NormalizedUserName = "MYEMAIL@SOMEDOMAIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJd45m3m47H0bIpw1s02cqFn7bi1QQNiEwlwosnWR8PE1TWouZMUHarbawle9XWaYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEL5+8V0Uu8kFBbaPibhnQGx6VBqk3JN/MGEeE6fUMZ0M41foTBb4lnUP5uCnhvYDTw==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b305bc43-a96a-439a-a218-ca6ffd63918e",
+                            SecurityStamp = "cae0d301-9b5f-4561-a84b-9e11daf966a0",
                             TwoFactorEnabled = false,
                             UserName = "myemail@somedomain.com"
                         });

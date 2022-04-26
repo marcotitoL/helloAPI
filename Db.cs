@@ -110,5 +110,26 @@
              UserId = 99
          });
 
+
+
+         modelBuilder
+        .Entity<Transactions>()
+        .Property(t => t.Status)
+        .HasConversion(
+            v => v.ToString(),
+            v => (TransactionStatus)Enum.Parse(typeof(TransactionStatus), v));
+
+
+        modelBuilder
+        .Entity<Products>()
+        .Property(p => p.Status)
+        .HasConversion(
+            v => v.ToString(),
+            v => (ProductStatus)Enum.Parse(typeof(ProductStatus), v));
+
+
+
+         
+
         }
     }

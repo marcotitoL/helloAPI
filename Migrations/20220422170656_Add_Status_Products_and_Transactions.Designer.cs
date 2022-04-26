@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace helloAPI.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220422170656_Add_Status_Products_and_Transactions")]
+    partial class Add_Status_Products_and_Transactions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -46,9 +48,8 @@ namespace helloAPI.Migrations
                     b.Property<int>("Qty")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -72,7 +73,7 @@ namespace helloAPI.Migrations
                             Name = "Adidas Running Cap",
                             Price = 29.50m,
                             Qty = 1,
-                            Status = "Available",
+                            Status = 0,
                             UserId = 99
                         });
                 });
@@ -123,15 +124,14 @@ namespace helloAPI.Migrations
                     b.Property<string>("Guid")
                         .HasColumnType("longtext");
 
-                    b.Property<string>("PaymentId")
-                        .HasColumnType("longtext");
+                    b.Property<int>("PaymentId")
+                        .HasColumnType("int");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("longtext");
+                    b.Property<int>("Status")
+                        .HasColumnType("int");
 
                     b.HasKey("Id");
 
@@ -248,21 +248,21 @@ namespace helloAPI.Migrations
                         new
                         {
                             Id = "573718cc-2ff6-4980-800d-f73e0605649a",
-                            ConcurrencyStamp = "7e0158f4-ca4e-4b4b-9ce8-5aeea27b4c2f",
+                            ConcurrencyStamp = "4fb225ed-8d4b-48fb-be85-dbaa31b6a522",
                             Name = "Super Administrator",
                             NormalizedName = "SUPER ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "fb0b8efb-97e4-4302-8b84-a8670d84d0e0",
-                            ConcurrencyStamp = "b8a6fcc5-b2f7-454c-ab6d-9b09799341ad",
+                            ConcurrencyStamp = "6eaedf65-bcc2-4752-8597-e16e34349d57",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
                             Id = "06579486-4460-413c-bc04-ea719960dff7",
-                            ConcurrencyStamp = "b24fea27-0d63-4e73-966d-2e85a95b382d",
+                            ConcurrencyStamp = "d5c29371-3ff0-4623-b93c-949f1883ed37",
                             Name = "User",
                             NormalizedName = "USER"
                         });
@@ -359,15 +359,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "0e45e701-4bfe-4867-8550-87f6ae9bf6c8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "02df80ef-5e06-4a07-81c4-d1524d7ad8c7",
+                            ConcurrencyStamp = "42626ca1-5d96-489b-8deb-7d9ed4232ed7",
                             Email = "marco.lambo@vogappdevelopers.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
                             NormalizedUserName = "MARCO.LAMBO@VOGAPPDEVELOPERS.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPO9NPfk7Kkajsd0/70pWWNbJ5kmeCQqSVJRvPgJWZXGnAxUITT0xTG9s5yw9LEKSA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDB3EyuwJyshgO/fSjXcFCkh5nsVPehiPxRYqr2m82aEPRMjuX/FMI4a/sULsyvkag==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "c9d469c6-ebcb-499a-a0ad-e780d1633bc3",
+                            SecurityStamp = "146bcdda-0c0b-48bb-8cc0-c6abc4f8c35a",
                             TwoFactorEnabled = false,
                             UserName = "marco.lambo@vogappdevelopers.com"
                         },
@@ -375,15 +375,15 @@ namespace helloAPI.Migrations
                         {
                             Id = "46b2c7ae-290f-4b18-ae66-39db50de0379",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "26e9b515-f502-4294-bd3d-e11e9394bc02",
+                            ConcurrencyStamp = "bfd0c76f-a181-4840-84da-cd1fe8c36445",
                             Email = "myemail@somedomain.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MYEMAIL@SOMEDOMAIN.COM",
                             NormalizedUserName = "MYEMAIL@SOMEDOMAIN.COM",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJd45m3m47H0bIpw1s02cqFn7bi1QQNiEwlwosnWR8PE1TWouZMUHarbawle9XWaYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIjGojvK84yYhHAGuwP+/Zok67LLvlZz7/3O6vM8kCjidemNIq0wajKcZsel2i8SDQ==",
                             PhoneNumberConfirmed = true,
-                            SecurityStamp = "b305bc43-a96a-439a-a218-ca6ffd63918e",
+                            SecurityStamp = "028e076c-5129-43e5-beb7-ebf489666493",
                             TwoFactorEnabled = false,
                             UserName = "myemail@somedomain.com"
                         });

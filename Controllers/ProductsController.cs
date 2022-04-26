@@ -13,7 +13,7 @@ namespace helloAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Products
+///<summary>Returns all products</summary>
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts()
         {
@@ -129,6 +129,7 @@ namespace helloAPI.Controllers
                     productsCategory = await _context.ProductsCategory.Where(cat=>cat.Guid==viewProducts.Category.Id).FirstOrDefaultAsync(),
                     UserId = await _context.UserDetails.Where( u => u.AspNetUserId == viewProducts.Seller.Id ).Select( u => u.Id).SingleOrDefaultAsync(),
                     userDetails = await _context.UserDetails.Where( u => u.AspNetUserId == viewProducts.Seller.Id ).FirstOrDefaultAsync(),
+                    Status = ProductStatus.Available
             };
                  _context.Products.Add(newProduct);
 
