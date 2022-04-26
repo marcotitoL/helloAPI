@@ -7,12 +7,31 @@
   },
   "AllowedHosts": "*",
   "ConnectionStrings": {
-    "DefaultConnection": "Server=localhost;Database=<dbname>;User=<dbuser>;Password=<dbpass>;"
+    "DefaultConnection": "Server=localhost;Database=<dbname>;User=<dbuser>;Password=<dbuserpassword>;"
   },
   "JWT": {
     "key": "HELLOAPI1234567890",
     "Issuer": "helloAPI",
     "Audience": "helloAPIUser",
     "DurationInMinutes": 15
+  },
+  "Stripe": {
+    "Publishable_key": "pk_test_stripe_publishable_key_goes_here",
+    "Secret_key": "sk_test_secret_key_goes_here"
+  },
+  "Sendgrid": {
+    "Api_key": "SG.api_key_goes_here",
+    "Mailfrom": "<fromemail>",
+    "Mailfromname": "<fromname>"
+  },
+  "Twilio": {
+    "SID": "SID_goes_here",
+    "Auth_token": "token_goes_here",
+    "Phonenumber": "your_twilio_phone_number",
+    "VerifiedNumbers": [
+      "test_mode_verifed_numbers_array_goes_here0",
+      "test_mode_verifed_numbers_array_goes_here1",
+      "test_mode_verifed_numbers_array_goes_here2"
+    ]
   }
 }
