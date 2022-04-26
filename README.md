@@ -8,6 +8,7 @@ What does this API do?
 ------
 at the time of this writing it's just a basic user manager, with registration and login, set a balance (can be used like points), upload a profile picture,
 see all registered users, update details like name, birthdate. Delete a user
+Add Products and Categories. Buy a product/ refund a product. also has sample integration for Twilio, Sendgrid, and Stripe
 
 
 ### Things I learned while doing this
@@ -23,6 +24,10 @@ see all registered users, update details like name, birthdate. Delete a user
 * handling file uploads and using static files
 * Customizing swagger
 * How to deploy dotnet apps on Ubuntu using nginx *(got a lot of some headscratchers here)*
+* Scaffolding controllers
+* Integrating 3rd party services like Twilio, Sendgrid, and Stripe
+* EF Migrations, Code-first approach
+* Dependency Injections: When to use Transients, Singleton and Scoped
 
 you can see all of this in action here -> https://helloapi.codewithmar.co/swagger/index.html
 
