@@ -29,7 +29,8 @@ Add Products and Categories. Buy a product/ refund a product. also has sample in
 * EF Migrations, Code-first approach
 * Dependency Injections: When to use Transients, Singleton and Scoped
 
-you can see all of this in action here -> https://helloapi.codewithmar.co/swagger/index.html
+you can see all of this in action here -> https://test.codewithmar.co/swagger/index.html
+![image](https://user-images.githubusercontent.com/103156908/165855480-73b26747-aac3-47e2-857b-fd10d975789c.png)
 
 ___________
 
@@ -38,9 +39,10 @@ ___________
 2. clone this REPO and cd to the project directory
 
       `git clone https://github.com/marcotitoL/helloAPI.git`
-3. rename sample.appsettings.json to appsettings.json and update the connection string
+3. rename sample.appsettings.json to appsettings.json and update the connection string and values for stripe,sendgrid, and twilio
      
-     see screenshot: https://prnt.sc/6M14GkM9-FMM
+     ![image](https://user-images.githubusercontent.com/103156908/165855369-d24a7b1e-8a53-4b8d-bc0d-fbe7a08ee7b5.png)
+
      
 4. run `dotnet ef database update`
       
