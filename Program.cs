@@ -5,9 +5,9 @@ ConfigurationManager configuration = builder.Configuration;
 // Add services to the container.
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>( 
-    opt => { opt.SignIn.RequireConfirmedEmail = true; 
+   /* opt => { opt.SignIn.RequireConfirmedEmail = true; 
             opt.SignIn.RequireConfirmedPhoneNumber = true;
-    } )
+    }*/ )
     .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 
@@ -94,3 +94,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }

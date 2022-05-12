@@ -27,6 +27,13 @@
     <PackageReference Include="Stripe.net" Version="39.107.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Twilio" Version="5.74.0" />
+    
   </ItemGroup>
+
+<ItemGroup>
+  <InternalsVisibleTo Include="helloAPI.integration.test" />
+</ItemGroup>
+  
+    
 
 </Project>
