@@ -15,15 +15,25 @@ namespace helloAPI.Controllers
 
 ///<summary>Returns all categories</summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductCategoryDTO>>> GetProductsCategory()
+        public async Task<ActionResult<IEnumerable<ProductCategoryDTO>>> GetProductsCategory( int page = 1, int totalPerPage = 5 )
         {
+            int skippedInPages = ( ( page == 0 ? 1 : page ) - 1 ) * totalPerPage;
+
             return await _context.ProductsCategory.Select(
                 cat => new ProductCategoryDTO{
                     Id = cat.Guid,
                     CategoryName = cat.CategoryName,
                     ProductCount = _context.Products.Where(p=>p.CategoryId==cat.Id).Count()
                 }
-            ).ToListAsync();
+            )
+            .Skip(skippedInPages)
+            .Take(totalPerPage)
+            .ToListAsync();
+        }
+
+        [HttpGet,Route("count")]
+        public async Task<IActionResult> GetCount(){
+            return Ok( await _context.ProductsCategory.CountAsync() );
         }
 
         // GET: api/ProductsCategory/5
@@ -84,7 +94,7 @@ namespace helloAPI.Controllers
         // POST: api/ProductsCategory
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost,Authorize]
-        public async Task<ActionResult<UpdateProductsCategoryDTO>> PostProductsCategory(UpdateProductsCategoryDTO productsCategory)
+        public async Task<ActionResult<ProductCategoryDTO>> PostProductsCategory(UpdateProductsCategoryDTO productsCategory)
         {
             productsCategory.Id = Guid.NewGuid().ToString();
             _context.ProductsCategory.Add(new ProductsCategory(){
@@ -93,7 +103,7 @@ namespace helloAPI.Controllers
             });
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetProductsCategory", new { id = productsCategory.Id }, productsCategory);
+            return CreatedAtAction("GetProductsCategory", new { id = productsCategory.Id }, new ProductCategoryDTO{Id = productsCategory.Id, CategoryName = productsCategory.CategoryName, ProductCount = 0 });
         }
 
         // DELETE: api/ProductsCategory/5

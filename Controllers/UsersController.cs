@@ -26,7 +26,7 @@ public class UsersController:ControllerBase
     }
 
     [HttpGet,Authorize]
-    public async Task<IActionResult> Get(){
+    public async Task<ActionResult<IEnumerable<UsersDTO>>> Get( int page = 1, int totalPerPage = 5, bool confirmedOnly = true ){
         /* var query = from user in _applicationDbContext.Users
                     join userDetails in _applicationDbContext.UserDetails on user.Id equals userDetails.AspNetUserId
                     select new { 
@@ -34,21 +34,88 @@ public class UsersController:ControllerBase
                     };
         return Ok(query); */
 
-        var userLists = await _applicationDbContext.Users
+        int skippedInPages = ( ( page == 0 ? 1 : page ) - 1 ) * totalPerPage;
+        
+        var query = _applicationDbContext.Users.AsQueryable();
+                
+                
+
+        if( confirmedOnly ){
+            query = query.Where( u => u.EmailConfirmed == true && u.PhoneNumberConfirmed == true );
+        }
+
+        IQueryable<UsersDTO> resultQuery;
+        resultQuery = query.Join( _applicationDbContext.UserRoles, 
+                    u => u.Id,
+                    ur => ur.UserId,
+                    (u,ur) => new {u.Id, u.Email, ur.RoleId, u.EmailConfirmed, u.PhoneNumberConfirmed, u.PhoneNumber }
+                )
+                .Join( _applicationDbContext.Roles, 
+                
+                    u => u.RoleId,
+                    r => r.Id,
+                    (u,r) => new {u.Id,u.Email,Role = r.Name, u.EmailConfirmed, u.PhoneNumberConfirmed, u.PhoneNumber}
+                )
                 .Join( _applicationDbContext.UserDetails,
-                        a => a.Id,
+                        a => a.Id ,
                         b => b.AspNetUserId,
-                        (a, b) => new {
+                        (a, b) => new UsersDTO{
                             Id = a.Id,
                             Email = a.Email,
                             Firstname = b.Firstname,
                             Lastname = b.Lastname,
                             Birthdate = b.Birthdate.ToString("yyyy-MM-dd"),
                             ProfileImage =  b.ProfileImage == null ? "" : $"{HttpContext.Request.Scheme }://" + HttpContext.Request.Host.ToUriComponent() + "/uploads/" + b.ProfileImage,
-                            Balance = b.Balance
+                            Balance = b.Balance,
+                            Roles = a.Role,
+                            EmailConfirmed = a.EmailConfirmed,
+                            PhoneNumberConfirmed = a.PhoneNumberConfirmed,
+                            PhoneNumber = a.PhoneNumber
+                            
                         }
-                     ).ToListAsync();
-        return Ok(userLists);
+                     )
+                     .OrderBy( a => a.Lastname + " " + a.Firstname )
+                     .Skip(skippedInPages)
+                     .Take(totalPerPage);
+
+        /*var userLists = await _applicationDbContext.Users
+                .Where( u => u.EmailConfirmed == true && u.PhoneNumberConfirmed == true )
+                .Join( _applicationDbContext.UserRoles, 
+                    u => u.Id,
+                    ur => ur.UserId,
+                    (u,ur) => new {u.Id, u.Email, ur.RoleId}
+                )
+                .Join( _applicationDbContext.Roles, 
+                
+                    u => u.RoleId,
+                    r => r.Id,
+                    (u,r) => new {u.Id,u.Email,Role = r.Name}
+                )
+                .Join( _applicationDbContext.UserDetails,
+                        a => a.Id ,
+                        b => b.AspNetUserId,
+                        (a, b) => new UsersDTO{
+                            Id = a.Id,
+                            Email = a.Email,
+                            Firstname = b.Firstname,
+                            Lastname = b.Lastname,
+                            Birthdate = b.Birthdate.ToString("yyyy-MM-dd"),
+                            ProfileImage =  b.ProfileImage == null ? "" : $"{HttpContext.Request.Scheme }://" + HttpContext.Request.Host.ToUriComponent() + "/uploads/" + b.ProfileImage,
+                            Balance = b.Balance,
+                            Roles = a.Role
+                        }
+                     )
+                     .OrderBy( a => a.Lastname + " " + a.Firstname )
+                     .Skip(skippedInPages)
+                     .Take(totalPerPage)
+                     .ToListAsync(); */
+        return await resultQuery.ToListAsync();
+        
+    }
+
+    [HttpGet,Route("count"),Authorize]
+    public async Task<IActionResult> countUsers(){
+        return Ok( await _applicationDbContext.Users.CountAsync() );
     }
 ///<remarks>
 ///Note: the user will not be able to login until the email and phonenumber
@@ -196,14 +263,21 @@ public class UsersController:ControllerBase
 
         var loggedInUser = await _userManager.FindByIdAsync(id);
 
+        var loggedInUserRoles = _userManager.GetRolesAsync( loggedInUser ).Result.ToList();
+
         var loggedInUserDetails = await _applicationDbContext.UserDetails.Where(u => u.AspNetUserId == loggedInUser.Id ).FirstOrDefaultAsync();
         return Ok(new{
             Id = loggedInUser.Id,
+            Email = loggedInUser.Email,
             Firstname = loggedInUserDetails?.Firstname,
             Lastname = loggedInUserDetails?.Lastname,
             Birthdate = loggedInUserDetails?.Birthdate.ToString("yyyy-MM-dd"),
             ProfileImage =  loggedInUserDetails?.ProfileImage == null ? "" : $"{HttpContext.Request.Scheme }://" + HttpContext.Request.Host.ToUriComponent() + "/uploads/" + loggedInUserDetails?.ProfileImage,
-            Balance = loggedInUserDetails?.Balance
+            Balance = loggedInUserDetails?.Balance,
+            Roles = String.Join( ",", loggedInUserRoles ),
+            EmailConfirmed = loggedInUser.EmailConfirmed,
+            PhoneNumberConfirmed = loggedInUser.PhoneNumberConfirmed,
+            PhoneNumber = loggedInUser.PhoneNumber
         });
 
     }
@@ -270,6 +344,7 @@ public class UsersController:ControllerBase
 /// </summary>
     [HttpPost,Route("loginOTP")]
     public async Task<IActionResult> loginSMS2Fa( string Id, string smscode ){
+        Console.WriteLine($"Parameters = {Id},{smscode}");
         var user = await _userManager.FindByIdAsync(Id);
 
         var verified = await _userManager.VerifyTwoFactorTokenAsync( user, "Phone", smscode );
@@ -364,7 +439,7 @@ public class UsersController:ControllerBase
             _applicationDbContext.Update(updatedUserDetails);
             await _applicationDbContext.SaveChangesAsync();
 
-            return Ok(new { message = "Sucessfully updated profile picture" });
+            return Ok(new { message = "Sucessfully updated profile picture", profilePicture = $"{HttpContext.Request.Scheme }://" + HttpContext.Request.Host.ToUriComponent() + "/uploads/" + newFilename });
 
         }
 
@@ -415,7 +490,8 @@ public class UsersController:ControllerBase
             return new ObjectResult(new
             {
                 accessToken = new JwtSecurityTokenHandler().WriteToken(newAccessToken),
-                refreshToken = newRefreshToken
+                refreshToken = newRefreshToken,
+                Expiration = newAccessToken.ValidTo
             });
         }
 

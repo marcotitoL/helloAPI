@@ -15,8 +15,11 @@ namespace helloAPI.Controllers
 
 ///<summary>Returns all products</summary>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductsDTO>>> GetProducts( int page = 1, int totalPerPage = 5 )
         {
+
+            int skippedInPages = ( ( page == 0 ? 1 : page ) - 1 ) * totalPerPage;
+
             return await _context.Products.Select( p => new ProductsDTO(){
                 Id = p.Guid,
                 Name = p.Name,
@@ -33,9 +36,19 @@ namespace helloAPI.Controllers
                         Where( ud => ud.Id == p.UserId ).
                         Select( u => new idDTO(){
                             Id = u.AspNetUserId
-                        } ).FirstOrDefault()
-            }).ToListAsync();
+                        } ).FirstOrDefault(),
+                Added = p.Date.ToString("yyyy-MM-dd HH:MM:ss"),
+                Status = p.Status.ToString()
+            })
+            .Skip( skippedInPages )
+            .Take( totalPerPage )
+            .ToListAsync();
 
+        }
+
+        [HttpGet,Route("count")]
+        public async Task<IActionResult> GetProductsCount(){
+            return Ok( await _context.Products.CountAsync() );
         }
 
         // GET: api/Products/5
@@ -58,7 +71,8 @@ namespace helloAPI.Controllers
                         Where( ud => ud.Id == p.UserId ).
                         Select( ud => new idDTO(){
                             Id = ud.AspNetUserId
-                        } ).FirstOrDefault()
+                        } ).FirstOrDefault(),
+                Added = p.Date.ToString("yyyy-MM-dd HH:MM:ss"),
             }).FirstOrDefaultAsync();
 
             if (products == null)
@@ -88,6 +102,8 @@ namespace helloAPI.Controllers
             updatedProduct.CategoryId = await _context.ProductsCategory.
                                             Where( cat => cat.Guid == viewProducts.Category.Id  ).
                                             Select( cat => cat.Id ).SingleOrDefaultAsync();
+            updatedProduct.UserId = await _context.UserDetails.Where( u => u.AspNetUserId == viewProducts.Seller.Id )
+                                    .Select( u => u.Id ).SingleOrDefaultAsync();
 
 
 
