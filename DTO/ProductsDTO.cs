@@ -14,4 +14,8 @@ public class ProductsDTO{
     public idDTO Category {get;set;} = null!;
 
     public idDTO Seller {get;set;} = null!;
+
+    public string? Added {get;set;}
+
+    public string? Status {get;set;} = null!;
 }
